@@ -25,7 +25,7 @@ export default function App() {
       theme={theme}
       setTheme={setTheme}
 
-      // ⭐ FIX: pass the REAL JSON arrays
+      // FIX: pass the REAL JSON arrays
       planets={solarsystem}
       exoplanets={exoplanets}
 
