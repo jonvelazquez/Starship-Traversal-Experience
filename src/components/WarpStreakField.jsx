@@ -25,16 +25,14 @@ export default function WarpStreakField({ warpState }) {
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
 
-    // ⭐ Prevent gray background tint
+    // Prevent gray background tint
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.NoToneMapping;
     renderer.setClearColor(0x000000, 0); // true black
 
     mount.appendChild(renderer.domElement);
 
-    // ------------------------------------------------------------
-    // ⭐ LAYER 1 — DENSE STARFIELD (Voyager)
-    // ------------------------------------------------------------
+    // LAYER 1 — DENSE STARFIELD    
     const starCount = 4500; // more stars
     const starPositions = new Float32Array(starCount * 3);
 
@@ -60,9 +58,7 @@ export default function WarpStreakField({ warpState }) {
     const stars = new THREE.Points(starGeometry, starMaterial);
     scene.add(stars);
 
-    // ------------------------------------------------------------
-    // ⭐ LAYER 2 — SUBTLE STREAKS (Voyager)
-    // ------------------------------------------------------------
+    // LAYER 2 — SUBTLE STREAKS
     const streakCount = 180; // fewer streaks
     const streakPositions = new Float32Array(streakCount * 6);
 
@@ -92,22 +88,20 @@ export default function WarpStreakField({ warpState }) {
       opacity: 0.22 // lower brightness to keep background black
     });
 
-    // ⭐ Soft blue ambient tint (Voyager)
+    // Soft blue ambient tint
     const ambient = new THREE.AmbientLight(0x88baff, 0.08);
     scene.add(ambient);
 
     const streaks = new THREE.LineSegments(streakGeometry, streakMaterial);
     scene.add(streaks);
 
-    // ------------------------------------------------------------
-    // ⭐ ANIMATION LOOP (Voyager smoothness)
-    // ------------------------------------------------------------
+    // ANIMATION LOOP
     function animate() {
       requestAnimationFrame(animate);
 
       const state = warpStateRef.current;
 
-      // ⭐ STARFIELD — slow drift
+      // STARFIELD — slow drift
       const starPos = stars.geometry.attributes.position.array;
       for (let i = 0; i < starPos.length; i += 3) {
         starPos[i + 2] += 0.7;
@@ -120,7 +114,7 @@ export default function WarpStreakField({ warpState }) {
       }
       stars.geometry.attributes.position.needsUpdate = true;
 
-      // ⭐ STREAKS — subtle, short, smooth
+      // STREAKS — subtle, short, smooth
       const streakPos = streaks.geometry.attributes.position.array;
 
       let speed = 0;
@@ -162,7 +156,7 @@ export default function WarpStreakField({ warpState }) {
 
       streaks.geometry.attributes.position.needsUpdate = true;
 
-      // ⭐ Streak visibility
+      // Streak visibility
       streakMaterial.opacity =
         state === "warp-active" || state === "warp-starting"
           ? 0.22
