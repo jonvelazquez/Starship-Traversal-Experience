@@ -175,7 +175,7 @@ export default function NeptuneRings({
         ring.geometry = new THREE.RingGeometry(innerRadius, outerRadius, 512);
         ring.geometry.computeBoundingSphere();
 
-        // ⭐ REAPPLY GEOMETRY TILT AFTER RECREATION
+        // REAPPLY GEOMETRY TILT AFTER RECREATION
         ring.geometry.applyMatrix4(
           new THREE.Matrix4().makeRotationZ(rotationZ)
         );
