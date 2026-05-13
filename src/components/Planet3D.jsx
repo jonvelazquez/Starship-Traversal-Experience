@@ -13,20 +13,6 @@ import NeptuneRings from "./NeptuneRings";
 
 import exoplanetData from "../data/exoplanetData.js";
 
-/**
- * Planet3D
- *
- * Props:
- *  - name: optional string (preferred)
- *  - data: optional object (raw planet/exoplanet object)
- *  - fadePlanet: boolean for fade classes
- *  - isTraveling: boolean for travel state
- *
- * This component is defensive about the incoming shape of the selection.
- * If a texture exists for the resolved name it loads and uses it.
- * If no texture exists it renders a procedural colored sphere derived from the name.
- */
-
 // Debug camera placeholder
 function ExposeCamera() {
   return null;
