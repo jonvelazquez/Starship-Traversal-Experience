@@ -2,7 +2,7 @@
 import { useState } from "react";
 import ImageGallery from "./ImageGallery";
 
-// 🔊 Persistent looping Red Alert alarm
+// Persistent looping Red Alert alarm
 const redAlertAudio = new Audio("/sfx/redalert.mp3");
 redAlertAudio.loop = true;
 redAlertAudio.volume = 0.4;
@@ -19,11 +19,11 @@ function DetailPanel({
 }) {
   const [showMore, setShowMore] = useState(false);
 
-  // ⭐ Mass + Temperature toggles
+  // Mass + Temperature toggles
   const [massUnit, setMassUnit] = useState("kg");
   const [tempUnit, setTempUnit] = useState("K");
 
-  // ⭐ Normalize name for arrival text + imagery
+  // Normalize name for arrival text + imagery
   const name =
     selectedObject?.type === "planet"
       ? (selectedObject.data?.englishName ?? selectedObject.englishName)
@@ -36,17 +36,17 @@ function DetailPanel({
 
   const scienceMode = theme === "starship-science";
 
-  // ⭐ Normalize solar system object data (Sun, Pluto, planets)
+  // Normalize solar system object data (Sun, Pluto, planets)
   const planetData =
     ["planet", "star", "dwarf-planet"].includes(selectedObject?.type)
       ? selectedObject.data || selectedObject
       : null;
 
-  // ⭐ Exoplanet data stays the same
+  // Exoplanet data stays the same
   const exoData =
     selectedObject?.type === "exoplanet" ? selectedObject.data : null;
 
-  // ⭐ Unified data source for ALL object types
+  // Unified data source for ALL object types
   const data = {
     ...(planetData || {}),
     ...(exoData || {}),
@@ -54,7 +54,7 @@ function DetailPanel({
     ...(exoData?.manualData || {})
   };
 
-  // ⭐ Classification label
+  // Classification label
   const classification =
     selectedObject?.type === "planet"
       ? "Planet"
@@ -66,7 +66,7 @@ function DetailPanel({
             ? "Exoplanet"
             : "Unknown";
 
-  // ⭐ Mass conversion
+  // Mass conversion
   const massKg = data.mass;
   const massLbs = massKg ? massKg * 2.20462 : null;
 
@@ -77,7 +77,7 @@ function DetailPanel({
         ? `${massKg.toExponential(3)} kg`
         : `${massLbs.toExponential(3)} lbs`;
 
-  // ⭐ Temperature conversion (FIXED)
+  // Temperature conversion (FIXED)
   const tempK = Number(data.temperature);
 
   let displayedTemp = "N/A";
@@ -152,7 +152,7 @@ function DetailPanel({
             Overview
           </h3>
 
-          {/* ⭐ PHYSICAL */}
+          {/* PHYSICAL */}
           <h4>Physical</h4>
 
           {/* Mass Toggle */}
@@ -184,7 +184,7 @@ function DetailPanel({
             <li>Mass: {displayedMass}</li>
           </ul>
 
-          {/* ⭐ COLLAPSIBLE START */}
+          {/* COLLAPSIBLE START */}
           <button
             className="more-details-btn"
             onClick={() => setShowMore(!showMore)}
@@ -198,7 +198,7 @@ function DetailPanel({
           >
             <div className="more-details-content">
 
-              {/* ⭐ ORBITAL */}
+              {/* ORBITAL */}
               <h4>Orbital</h4>
               <ul>
                 <li>
@@ -222,7 +222,7 @@ function DetailPanel({
                 </li>
               </ul>
 
-              {/* ⭐ ATMOSPHERIC / THERMAL */}
+              {/* ATMOSPHERIC / THERMAL */}
               <h4>Atmospheric / Thermal</h4>
 
               {/* Temperature Toggle */}
@@ -255,13 +255,13 @@ function DetailPanel({
                 <li>Temperature Range: {data.tempRange ?? "N/A"}</li>
               </ul>
 
-              {/* ⭐ CLASSIFICATION */}
+              {/* CLASSIFICATION */}
               <h4>Classification</h4>
               <ul>
                 <li>{classification}</li>
               </ul>
 
-              {/* ⭐ SUPPLEMENTAL INFO */}
+              {/* SUPPLEMENTAL INFO */}
               <h4>Supplemental Info</h4>
               <ul>
                 <li>Atmosphere: {data.atmosphere ?? "N/A"}</li>
