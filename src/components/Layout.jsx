@@ -441,7 +441,7 @@ export default function Layout({
     onSelectObject(normalized);
   };
 
-  // ⭐ Auto-random-warp ONLY on first load, and only if user hasn’t interacted
+  // Auto-random-warp ONLY on first load, and only if user hasn’t interacted
   useEffect(() => {
     if (!(theme === "starship" || theme === "starship-redalert"))
       return;
