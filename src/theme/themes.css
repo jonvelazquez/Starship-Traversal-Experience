@@ -1,6 +1,4 @@
-/* ===========================
-   STARSHIP COMMAND THEME
-   =========================== */
+/* STARSHIP COMMAND THEME */
 .theme-starship {
   --bg: #020617;
   --panel-bg: rgba(0, 20, 40, 0.7);
@@ -34,9 +32,7 @@
   color: #000;
 }
 
-/* ===========================
-   NASA MISSION CONTROL THEME
-   =========================== */
+/* NASA MISSION CONTROL THEME */
 .theme-nasa {
   --bg: #0a0a0a;
   --panel-bg: #111;
@@ -54,9 +50,7 @@
   color: var(--text);
 }
 
-/* ===========================
-   GLASSMORPHISM THEME
-   =========================== */
+/* GLASSMORPHISM THEME */
 .theme-glass {
   --bg: linear-gradient(135deg, #1a1a2e, #16213e);
   --panel-bg: rgba(255, 255, 255, 0.08);
@@ -244,10 +238,7 @@
   box-sizing: border-box;
 }
 
-/* ============================================================
-   STARSHIP COMMAND — SC‑C‑3‑C
-   Hybrid Curves + Angles | Hybrid Metal | Blue + Amber Dual Tone
-   ============================================================ */
+/* STARSHIP COMMAND — Hybrid Curves + Angles | Hybrid Metal | Blue + Amber Dual Tone */
 
 .theme-starship {
   --bg-main: #050b16;                 /* deep navy steel */
@@ -270,9 +261,7 @@
     );
 }
 
-/* ============================================================
-   GLOBAL BACKGROUND + TEXT
-   ============================================================ */
+/* GLOBAL BACKGROUND + TEXT */
 
 .theme-starship .app-layout {
   background: var(--bg-main);
@@ -282,9 +271,7 @@
     radial-gradient(circle at 80% 80%, rgba(255,180,80,0.06), transparent 70%);
 }
 
-/* ============================================================
-   HEADER
-   ============================================================ */
+/* HEADER */
 
 .theme-starship .app-header {
   background: var(--bg-panel);
@@ -294,9 +281,7 @@
   border-radius: 0 0 var(--curve-radius) var(--curve-radius);
 }
 
-/* ============================================================
-   SIDEBAR (LEFT PANEL)
-   ============================================================ */
+/* SIDEBAR (LEFT PANEL) */
 
 .theme-starship .sidebar {
   background: var(--bg-panel-light);
@@ -327,9 +312,7 @@
   box-shadow: var(--panel-shadow);
 }
 
-/* ============================================================
-   STAR MAP (CENTER PANEL)
-   ============================================================ */
+/* STAR MAP (CENTER PANEL) */
 
 .theme-starship .starmap {
   background: var(--bg-panel);
@@ -342,9 +325,7 @@
   background-image: var(--metal-texture);
 }
 
-/* ============================================================
-   DETAIL PANEL (RIGHT PANEL)
-   ============================================================ */
+/* DETAIL PANEL (RIGHT PANEL) */
 
 .theme-starship .detail-panel {
   background: var(--bg-panel-light);
@@ -382,9 +363,7 @@
   box-shadow: var(--panel-shadow);
 }
 
-/* ============================================================
-   AMBIENT CONSOLE LIGHTS (SUBTLE ANIMATION)
-   ============================================================ */
+/* AMBIENT CONSOLE LIGHTS (SUBTLE ANIMATION) */
 
 .theme-starship .app-layout::after {
   content: "";
@@ -407,9 +386,7 @@
   }
 }
 
-/* ============================================================
-   NASA MISSION CONTROL — CLEAN BASELINE
-   ============================================================ */
+/* NASA MISSION CONTROL — CLEAN BASELINE */
 
 .theme-nasa {
   --bg-main: #0b0c10;
@@ -487,9 +464,7 @@
   border-color: var(--accent-primary);
 }
 
-/* ============================================================
-   DEEP SPACE HOLOGRAM — DISTINCT THIRD THEME
-   ============================================================ */
+/* DEEP SPACE HOLOGRAM */
 
 .theme-hologram {
   --bg-main: radial-gradient(circle at 10% 0%, #1a1040 0%, #050616 55%, #02030a 100%);
