@@ -1,0 +1,292 @@
+[
+  {
+    "id": "sun",
+    "englishName": "Sun",
+    "type": "star",
+    "gravity": 274.0,
+    "meanRadius": 696340,
+    "order": 0,
+    "manualData": {
+      "mass": 1.989e30,
+      "massUnit": "kg",
+      "density": 1.408,
+      "escape": 617.7,
+      "axialTilt": 7.25,
+      "sideralRotation": 648,
+      "sideralOrbit": null,
+      "semi_major_axis": 0,
+      "surfacePressure": null,
+      "temperature": 5778,
+      "tempRange": "5778 K (photosphere)",
+      "composition": "74% Hydrogen, 24% Helium, 2% heavier elements",
+      "atmosphere": "Plasma (photosphere, chromosphere, corona)",
+      "discovery": "Known since antiquity",
+      "distance": {
+        "au": 0,
+        "lightyears": 0,
+        "days": 0
+      }
+    }
+  },
+  {
+    "id": "mercury",
+    "englishName": "Mercury",
+    "type": "planet",
+    "gravity": 3.7,
+    "meanRadius": 2439.7,
+    "order": 1,
+    "manualData": {
+      "mass": 3.301e23,
+      "massUnit": "kg",
+      "density": 5.43,
+      "escape": 4.25,
+      "axialTilt": 0.034,
+      "sideralRotation": 1407.6,
+      "sideralOrbit": 87.969,
+      "semi_major_axis": 0.387,
+      "surfacePressure": 0,
+      "temperature": 440,
+      "tempRange": "100–700 K",
+      "composition": "Rocky (iron core, silicate mantle)",
+      "atmosphere": "Trace: O₂, Na, H₂, He",
+      "discovery": "Known since antiquity",
+      "distance": {
+        "au": 0.387,
+        "lightyears": 0.0000061,
+        "days": 2.23
+      }
+    }
+  },
+  {
+    "id": "venus",
+    "englishName": "Venus",
+    "type": "planet",
+    "gravity": 8.87,
+    "meanRadius": 6051.8,
+    "order": 2,
+    "manualData": {
+      "mass": 4.867e24,
+      "massUnit": "kg",
+      "density": 5.24,
+      "escape": 10.36,
+      "axialTilt": 177.4,
+      "sideralRotation": -5832.5,
+      "sideralOrbit": 224.701,
+      "semi_major_axis": 0.723,
+      "surfacePressure": 92,
+      "temperature": 737,
+      "tempRange": "700–750 K",
+      "composition": "Rocky (basaltic crust, iron core)",
+      "atmosphere": "96% CO₂, 3% N₂, sulfuric acid clouds",
+      "discovery": "Known since antiquity",
+      "distance": {
+        "au": 0.723,
+        "lightyears": 0.0000114,
+        "days": 4.16
+      }
+    }
+  },
+  {
+    "id": "earth",
+    "englishName": "Earth",
+    "type": "planet",
+    "gravity": 9.807,
+    "meanRadius": 6371,
+    "order": 3,
+    "manualData": {
+      "mass": 5.972e24,
+      "massUnit": "kg",
+      "density": 5.514,
+      "escape": 11.186,
+      "axialTilt": 23.44,
+      "sideralRotation": 23.934,
+      "sideralOrbit": 365.256,
+      "semi_major_axis": 1.0,
+      "surfacePressure": 1,
+      "temperature": 288,
+      "tempRange": "184–330 K",
+      "composition": "Silicate mantle, iron core",
+      "atmosphere": "78% N₂, 21% O₂, 1% trace gases",
+      "discovery": "N/A",
+      "distance": {
+        "au": 1.0,
+        "lightyears": 0.0000158,
+        "days": 5.77
+      }
+    }
+  },
+  {
+    "id": "mars",
+    "englishName": "Mars",
+    "type": "planet",
+    "gravity": 3.721,
+    "meanRadius": 3389.5,
+    "order": 4,
+    "manualData": {
+      "mass": 6.417e23,
+      "massUnit": "kg",
+      "density": 3.93,
+      "escape": 5.03,
+      "axialTilt": 25.19,
+      "sideralRotation": 24.623,
+      "sideralOrbit": 686.98,
+      "semi_major_axis": 1.524,
+      "surfacePressure": 0.006,
+      "temperature": 210,
+      "tempRange": "130–308 K",
+      "composition": "Rocky (iron oxide crust, silicate mantle)",
+      "atmosphere": "95% CO₂, 2.7% N₂, 1.6% Ar",
+      "discovery": "Known since antiquity",
+      "distance": {
+        "au": 1.524,
+        "lightyears": 0.0000241,
+        "days": 8.80
+      }
+    }
+  },
+  {
+    "id": "jupiter",
+    "englishName": "Jupiter",
+    "type": "planet",
+    "gravity": 24.79,
+    "meanRadius": 69911,
+    "order": 5,
+    "manualData": {
+      "mass": 1.898e27,
+      "massUnit": "kg",
+      "density": 1.33,
+      "escape": 59.5,
+      "axialTilt": 3.13,
+      "sideralRotation": 9.925,
+      "sideralOrbit": 4332.59,
+      "semi_major_axis": 5.203,
+      "surfacePressure": null,
+      "temperature": 165,
+      "tempRange": "110–170 K",
+      "composition": "Gas giant (H₂, He)",
+      "atmosphere": "Hydrogen, helium, ammonia, methane",
+      "discovery": "Known since antiquity",
+      "distance": {
+        "au": 5.203,
+        "lightyears": 0.0000825,
+        "days": 30.13
+      }
+    }
+  },
+  {
+    "id": "saturn",
+    "englishName": "Saturn",
+    "type": "planet",
+    "gravity": 10.44,
+    "meanRadius": 58232,
+    "order": 6,
+    "manualData": {
+      "mass": 5.683e26,
+      "massUnit": "kg",
+      "density": 0.687,
+      "escape": 35.5,
+      "axialTilt": 26.73,
+      "sideralRotation": 10.656,
+      "sideralOrbit": 10759,
+      "semi_major_axis": 9.537,
+      "surfacePressure": null,
+      "temperature": 134,
+      "tempRange": "95–150 K",
+      "composition": "Gas giant (H₂, He)",
+      "atmosphere": "Hydrogen, helium, ammonia",
+      "discovery": "Known since antiquity",
+      "distance": {
+        "au": 9.537,
+        "lightyears": 0.0001512,
+        "days": 55.22
+      }
+    }
+  },
+  {
+    "id": "uranus",
+    "englishName": "Uranus",
+    "type": "planet",
+    "gravity": 8.69,
+    "meanRadius": 25362,
+    "order": 7,
+    "manualData": {
+      "mass": 8.681e25,
+      "massUnit": "kg",
+      "density": 1.27,
+      "escape": 21.3,
+      "axialTilt": 97.77,
+      "sideralRotation": -17.24,
+      "sideralOrbit": 30687,
+      "semi_major_axis": 19.191,
+      "surfacePressure": null,
+      "temperature": 76,
+      "tempRange": "47–76 K",
+      "composition": "Ice giant (H₂O, NH₃, CH₄ ices)",
+      "atmosphere": "H₂, He, CH₄",
+      "discovery": "1781 (William Herschel)",
+      "distance": {
+        "au": 19.191,
+        "lightyears": 0.0003039,
+        "days": 110.97
+      }
+    }
+  },
+  {
+    "id": "neptune",
+    "englishName": "Neptune",
+    "type": "planet",
+    "gravity": 11.15,
+    "meanRadius": 24622,
+    "order": 8,
+    "manualData": {
+      "mass": 1.024e26,
+      "massUnit": "kg",
+      "density": 1.64,
+      "escape": 23.5,
+      "axialTilt": 28.32,
+      "sideralRotation": 16.11,
+      "sideralOrbit": 60190,
+      "semi_major_axis": 30.07,
+      "surfacePressure": null,
+      "temperature": 72,
+      "tempRange": "55–72 K",
+      "composition": "Ice giant (H₂O, NH₃, CH₄ ices)",
+      "atmosphere": "H₂, He, CH₄",
+      "discovery": "1846 (Galle & d'Arrest)",
+      "distance": {
+        "au": 30.07,
+        "lightyears": 0.0004768,
+        "days": 174.10
+      }
+    }
+  },
+  {
+    "id": "pluto",
+    "englishName": "Pluto",
+    "type": "dwarf-planet",
+    "gravity": 0.62,
+    "meanRadius": 1188.3,
+    "order": 9,
+    "manualData": {
+      "mass": 1.309e22,
+      "massUnit": "kg",
+      "density": 1.88,
+      "escape": 1.21,
+      "axialTilt": 119.6,
+      "sideralRotation": -153.3,
+      "sideralOrbit": 90560,
+      "semi_major_axis": 39.48,
+      "surfacePressure": 1e-5,
+      "temperature": 44,
+      "tempRange": "33–55 K",
+      "composition": "Ice-rock mixture (N₂, CH₄, CO ices)",
+      "atmosphere": "Nitrogen, methane, carbon monoxide",
+      "discovery": "1930 (Clyde Tombaugh)",
+      "distance": {
+        "au": 39.48,
+        "lightyears": 0.0006260,
+        "days": 228.50
+      }
+    }
+  }
+]

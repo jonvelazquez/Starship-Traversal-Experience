@@ -1,0 +1,2981 @@
+/* ============================================================
+   SECTION 1 — GLOBAL LAYOUT (CLEAN, FIXED, PRODUCTION-SAFE)
+============================================================ */
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+.app-layout {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-header {
+  padding: 16px;
+  background: #111827;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.app-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 260px 1fr 300px;
+  grid-template-rows: 1fr;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  position: relative;
+  z-index: 5;
+}
+
+/* LEFT PANEL */
+.sidebar {
+  grid-column: 1;
+  grid-row: 1;
+  background: #1f2937;
+  color: white;
+  padding: 16px;
+  overflow-y: auto;
+  min-height: 0;
+  position: relative;
+  z-index: 10;
+}
+
+/* ⭐ FIXED CENTER PANEL — replaces ALL old .star-map grid rules */
+.center-panel {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  padding: 16px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* RIGHT PANEL */
+.detail-panel {
+  grid-column: 3;
+  grid-row: 1;
+  background: #1e293b;
+  color: white;
+  padding: 16px;
+  overflow-y: auto;
+  min-height: 0;
+  position: relative;
+  z-index: 10;
+}
+
+/* ⭐ INNER STAR MAP WRAPPER — stays inside StarMap.jsx */
+.star-map {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* ⭐ INNER CONTENT WRAPPER — must fill available space */
+.star-map-inner {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* ⭐ Planet3D canvas always fills */
+.planet-3d,
+.planet-3d canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ============================================================
+   SECTION 2 — NON‑STARSHIP THEMES (VISUAL ONLY)
+   NASA, Hologram, Science
+============================================================ */
+
+/* ------------------------------
+   NASA THEME
+------------------------------ */
+.theme-nasa .sidebar,
+.theme-nasa .detail-panel,
+.theme-nasa .center-panel {
+  background: #0b0e14;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.theme-nasa .star-map {
+  background: transparent !important;
+}
+
+.theme-nasa .app-layout::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.theme-nasa .app-header {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.theme-nasa .app-body {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 300px;
+  height: calc(100vh - 64px);
+}
+
+.theme-nasa .star-map-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ------------------------------
+   HOLOGRAM THEME
+------------------------------ */
+.theme-hologram .sidebar,
+.theme-hologram .detail-panel,
+.theme-hologram .center-panel {
+  backdrop-filter: blur(10px) saturate(1.4);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.theme-hologram .star-map {
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.theme-hologram .app-layout::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 2px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.theme-hologram .app-body {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 300px;
+  height: calc(100vh - 64px);
+}
+
+.theme-hologram .star-map-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ------------------------------
+   SCIENCE THEME
+------------------------------ */
+.theme-starship-science .center-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0,255,255,0.15), transparent 70%);
+  animation: sensorSweep 4s linear infinite;
+  pointer-events: none;
+}
+
+.theme-starship-science .star-map::after {
+  display: none !important;
+}
+
+@keyframes sensorSweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.theme-starship-science .app-body {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 300px;
+  height: calc(100vh - 64px);
+}
+
+.theme-starship-science .star-map-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ============================================================
+   SECTION 3 — STARSHIP LAYOUT FOUNDATION (VISUAL ONLY)
+============================================================ */
+
+.theme-starship .app-body {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 320px;
+  gap: 14px;
+  padding: 14px 18px 20px;
+  height: calc(100vh - 64px);
+}
+
+/* ------------------------------
+   STARSHIP SIDEBAR
+------------------------------ */
+.theme-starship .sidebar {
+  flex: 1;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0.75rem 1rem;
+  border-right: 2px solid rgba(255, 179, 71, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.theme-starship .sidebar > h2 {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  color: rgba(180, 210, 255, 0.9);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+}
+
+.theme-starship .destination-grid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.theme-starship .destination-btn {
+  width: 100%;
+  text-align: center !important;
+  padding: 0.55rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 170, 255, 0.4);
+  background: linear-gradient(
+    to right,
+    rgba(0, 170, 255, 0.25),
+    rgba(5, 8, 20, 0.9)
+  );
+  color: #e6f1ff;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+/* ------------------------------
+   STARSHIP CENTER PANEL (Star Map)
+------------------------------ */
+.theme-starship .star-map {
+  padding: 1rem;
+  background: radial-gradient(circle at center, #02040a, #000);
+  border-radius: 18px;
+  border: 3px solid rgba(0, 170, 255, 0.5);
+  box-shadow:
+    0 0 30px rgba(0, 170, 255, 0.5),
+    inset 0 0 40px rgba(0, 0, 0, 0.9);
+  position: relative;
+}
+
+.theme-starship .star-map h2 {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(180, 210, 255, 0.9);
+  margin-bottom: 0.6rem;
+}
+
+.theme-starship .starmap-title {
+  display: block;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(180, 210, 255, 0.9);
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+
+/* ------------------------------
+   STARSHIP DETAIL PANEL
+------------------------------ */
+.theme-starship .detail-panel {
+  padding: 1rem;
+  border-left: 2px solid rgba(0, 170, 255, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.theme-starship .mode-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+/* ------------------------------
+   STARSHIP IMAGE GALLERY
+------------------------------ */
+.theme-starship .image-gallery .image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.theme-starship .image-gallery img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* ------------------------------
+   STARSHIP STAR MAP INNER FIX
+------------------------------ */
+.theme-starship .star-map-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* ------------------------------
+   STARSHIP LCARS BARS
+------------------------------ */
+.theme-starship .lcars-bars {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 0.6rem;
+}
+
+.theme-starship .lcars-bar {
+  height: 6px;
+  flex: 1;
+  border-radius: 999px;
+  background: linear-gradient(to right, #ffb347, #ff7b47);
+  animation: lcarsPulse 2.4s ease-in-out infinite;
+}
+
+.theme-starship .lcars-bar.bar2 { animation-delay: 0.3s; }
+.theme-starship .lcars-bar.bar3 { animation-delay: 0.6s; }
+
+@keyframes lcarsPulse {
+  0% { opacity: 0.3; transform: scaleX(0.9); }
+  50% { opacity: 1; transform: scaleX(1); }
+  100% { opacity: 0.3; transform: scaleX(0.9); }
+}
+
+/* ------------------------------
+   STARSHIP SHIP STATUS BARS
+------------------------------ */
+.theme-starship .ship-status {
+  margin-bottom: 1rem;
+}
+
+.theme-starship .ship-status h3 {
+  margin-bottom: 0.5rem;
+  color: rgba(180, 210, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+}
+
+.theme-starship .status-bar {
+  margin-bottom: 0.5rem;
+}
+
+.theme-starship .status-bar span {
+  font-size: 0.75rem;
+  color: rgba(200, 220, 255, 0.9);
+}
+
+.theme-starship .status-bar .bar-fill {
+  height: 8px;
+  border-radius: 6px;
+  margin-top: 4px;
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  animation: statusPulse 2s infinite ease-in-out;
+}
+
+.theme-starship .status-bar.shields .bar-fill {
+  background: linear-gradient(to right, #3fa9f5, #00c6ff);
+}
+
+.theme-starship .status-bar.hull .bar-fill {
+  background: linear-gradient(to right, #4cff4c, #00aa00);
+}
+
+.theme-starship .status-bar.warp-core .bar-fill {
+  background: linear-gradient(to right, #ffb347, #ff7b47);
+}
+
+@keyframes statusPulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* ------------------------------
+   STARSHIP RED ALERT BUTTONS
+------------------------------ */
+.theme-starship .red-alert-row,
+.theme-starship-redalert .red-alert-row {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.theme-starship .red-alert-btn,
+.theme-starship-redalert .red-alert-btn {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* ============================================================
+   SECTION 4 — WARP SYSTEM (GLOBAL, CLEANED)
+============================================================ */
+/* Base warp overlay — anchored to star-map, hidden by default */
+.warp-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5; /* below cockpit, above planet */
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.warp-overlay.warp-starting,
+.warp-overlay.warp-active {
+  opacity: 1;
+}
+
+.warp-overlay.warp-ending {
+  opacity: 0;
+}
+
+/* Optional PNG tunnel */
+.warp-tunnel {
+  position: absolute;
+  inset: 0;
+  background-image: url("/images/warp-tunnel.png");
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+  animation: none !important;
+}
+
+/* Arrival Flash */
+.arrival-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-out;
+  z-index: 4;
+}
+
+.arrival-flash.active {
+  opacity: 1;
+}
+
+/* Planet fade */
+.planet-3d {
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.planet-3d.fade-in {
+  opacity: 1;
+}
+
+.planet-3d.fade-out {
+  opacity: 0;
+}
+
+/* ⭐ Warp Glow */
+.warp-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 2;
+  background: radial-gradient(circle,
+      rgba(180, 220, 255, 0.25) 0%,
+      rgba(120, 160, 220, 0.12) 40%,
+      transparent 70%);
+  transition: opacity 0.4s ease-out;
+}
+
+.warp-overlay.warp-active .warp-glow {
+  opacity: 1;
+}
+
+/* ⭐ 3D Warp Streak Field Container */
+.warp-streak-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ⭐ Camera Shake */
+@keyframes shake {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(2px, -2px); }
+  50%  { transform: translate(-2px, 2px); }
+  75%  { transform: translate(2px, 2px); }
+  100% { transform: translate(0, 0); }
+}
+
+.shake {
+  animation: shake 0.15s linear;
+}
+
+/* ============================================================
+   SECTION 5 — NASA MISSION CONTROL THEME VARIABLES
+============================================================ */
+
+.theme-nasa {
+  --panel-bg: #0d1117;
+  --panel-border: #1f2937;
+  --panel-glow: rgba(80, 150, 255, 0.15);
+
+  --text-color: #e6edf3;
+  --text-dim: #9ba3b0;
+
+  --accent-color: #4ea1ff;
+  --accent-glow: rgba(78, 161, 255, 0.35);
+
+  --button-bg: #1b2430;
+  --button-hover: #243041;
+  --button-border: #2e3a4a;
+
+  --grid-color: rgba(255, 255, 255, 0.06);
+}
+
+/* ============================================================
+   SECTION 6 — SHARED THEME PANEL STYLING
+============================================================ */
+
+.theme-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  padding: 14px 18px;
+  color: var(--text-color);
+  box-shadow: 0 0 12px var(--panel-glow);
+}
+
+.theme-header {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  margin-bottom: 10px;
+  text-shadow: 0 0 6px var(--accent-glow);
+}
+
+.theme-button {
+  background: var(--button-bg);
+  border: 1px solid var(--button-border);
+  padding: 8px 14px;
+  border-radius: 4px;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.theme-button:hover {
+  background: var(--button-hover);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.theme-grid {
+  background-image: linear-gradient(to right,
+      var(--grid-color) 1px,
+      transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ============================================================
+   SECTION 7 — NASA MISSION CONTROL OVERRIDES
+============================================================ */
+
+.theme-nasa .app-header h1 {
+  color: var(--accent-color);
+  text-shadow: 0 0 8px var(--accent-glow);
+  letter-spacing: 0.5px;
+}
+
+.theme-nasa .sidebar,
+.theme-nasa .detail-panel,
+.theme-nasa .star-map {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 0 10px var(--panel-glow);
+}
+
+.theme-nasa .sidebar button,
+.theme-nasa .detail-panel button {
+  background: var(--button-bg);
+  border-color: var(--button-border);
+}
+
+.theme-nasa .sidebar button:hover,
+.theme-nasa .detail-panel button:hover {
+  background: var(--button-hover);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.theme-nasa .star-map {
+  background: transparent !important;
+}
+
+/* ============================================================
+   SECTION 8 — STAR MAP & PLANET VIEWER (CLEAN + SAFE)
+============================================================ */
+
+/* Title at top */
+.starmap-title {
+  text-align: center;
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.starmap-subtitle {
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin: 0 0 12px 0;
+}
+
+/* Planet container from Planet3D */
+.planet-3d {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 1 / 1;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.planet-3d.fade-in {
+  opacity: 1;
+}
+
+.planet-3d.fade-out {
+  opacity: 0;
+}
+
+/* Planet viewer wrapper */
+.planet-viewer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.6s ease;
+}
+
+.planet-viewer.fade-out {
+  opacity: 0;
+}
+
+.planet-viewer.fade-in {
+  opacity: 1;
+}
+
+/* Placeholder text above canvas */
+.star-map-placeholder {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  width: 100%;
+  z-index: 10;
+}
+
+/* ============================================================
+   SECTION 9 — DESTINATION LIST + TOGGLES
+============================================================ */
+
+.destination-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.destination-list button {
+  width: 90%;
+  text-align: center;
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.toggle-row button {
+  min-width: 130px;
+  text-align: center;
+}
+
+/* Gallery toggle row */
+.gallery-toggle-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.gallery-toggle-row button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* ============================================================
+   SECTION 10 — IMAGE GALLERY (SHARED)
+============================================================ */
+
+.image-gallery img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+
+.image-gallery .image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+/* ============================================================
+   SECTION 11 — FINAL SAFETY RULES
+   Ensures planet always loads in ALL non‑Starship themes
+============================================================ */
+
+/* ⭐ Planet should ALWAYS be visible in non‑Starship themes */
+.app-layout:not(.theme-starship):not(.theme-starship-redalert)
+  .planet-3d.fade-out {
+  opacity: 1 !important;
+}
+
+/* ⭐ Prevent any theme from collapsing the star map */
+.center-panel,
+.star-map,
+.star-map-inner {
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ⭐ Ensure canvas always fills available space */
+.theme-starship .planet-3d {
+  width: 100%;
+  max-width: 600px; /* fills LCARS panel */
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  border-radius: 14px; /* matches LCARS panel rounding */
+}
+
+/* ============================================================
+   STARSHIP — FINAL PLANET WIDTH + ROUNDING + CENTERING FIX
+============================================================ */
+
+/* Remove inner padding so planet can reach rounded LCARS edges */
+.theme-starship .star-map {
+  padding: 0 !important;
+  border-radius: 18px !important; /* LCARS curvature */
+  overflow: hidden; /* ensures planet follows rounding */
+}
+
+/* Make planet container fill LCARS panel width */
+.theme-starship .planet-3d {
+  width: 100% !important;
+  max-width: none !important;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  border-radius: 18px !important; /* match LCARS panel */
+}
+
+/* Center planet vertically + horizontally */
+.theme-starship .star-map-inner {
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 0 !important;
+}
+
+/* Ensure canvas stretches horizontally */
+.theme-starship .planet-3d canvas {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1;
+}
+
+/* STARSHIP — warp must be centered inside LCARS panel */
+.theme-starship .star-map {
+  position: relative !important;
+  overflow: hidden !important; /* clip warp to LCARS shape */
+}
+
+/* ============================================================
+   STARSHIP — GUARANTEED WARP + PLANET ALIGNMENT FIX
+============================================================ */
+
+/* Make LCARS panel the clipping + centering container */
+.app-layout.theme-starship .star-map {
+  position: relative !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  border-radius: 18px !important;
+}
+
+/* Restore safe padding so planet fits LCARS frame */
+.app-layout.theme-starship .star-map-inner {
+  padding: 1rem !important;
+  box-sizing: border-box !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Planet scales to LCARS panel width */
+.app-layout.theme-starship .planet-3d {
+  width: 100% !important;
+  max-width: calc(100% - 2rem) !important;
+  aspect-ratio: 1 / 1 !important;
+  margin: 0 auto !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+}
+
+/* Canvas must stretch horizontally */
+.app-layout.theme-starship .planet-3d canvas {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1 !important;
+  display: block !important;
+}
+
+/* ============================================================
+   STARSHIP — FINAL CANVAS HEIGHT FIX (prevents cut-off)
+============================================================ */
+
+.app-layout.theme-starship .planet-3d {
+  width: 100% !important;
+  max-width: calc(100% - 2rem) !important;
+  aspect-ratio: 1 / 1 !important;
+  margin: 0 auto !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* ⭐ The critical fix — canvas must obey container height */
+.app-layout.theme-starship .planet-3d canvas {
+  width: 100% !important;
+  height: 100% !important;     /* <— THIS fixes the stretching */
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* ============================================================
+   FINAL WARP SYSTEM — SINGLE SOURCE OF TRUTH
+============================================================ */
+
+.theme-starship .star-map {
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 18px !important;
+}
+
+/* Warp overlay ALWAYS anchors to star-map */
+.theme-starship .star-map > .warp-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: opacity 0.6s ease-in-out !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 5 !important;
+}
+
+/* Warp state visibility */
+.warp-overlay.warp-starting,
+.warp-overlay.warp-active {
+  opacity: 1 !important;
+}
+
+.warp-overlay.warp-ending {
+  opacity: 0 !important;
+}
+
+/* Warp layers */
+.warp-tunnel,
+.warp-glow,
+.arrival-flash,
+.warp-streak-field {
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Anchor warp to the star-map panel and set stacking order */
+.theme-starship .star-map,
+.app-layout .star-map {
+  position: relative !important;    /* ensure star-map is the positioned ancestor */
+  overflow: hidden !important;      /* clip warp to rounded panel */
+  z-index: 1 !important;            /* base stacking for the panel */
+}
+
+/* Warp overlay must be a direct child of .star-map */
+.theme-starship .star-map > .warp-overlay,
+.app-layout .star-map > .warp-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: opacity 0.6s ease-in-out !important;
+  z-index: 3 !important; /* above planet (z-index:1) but below header (z-index:10) */
+}
+
+/* Warp visible states */
+.theme-starship .star-map > .warp-overlay.warp-starting,
+.theme-starship .star-map > .warp-overlay.warp-active,
+.app-layout .star-map > .warp-overlay.warp-starting,
+.app-layout .star-map > .warp-overlay.warp-active {
+  opacity: 1 !important;
+}
+
+/* Arrival flash and layers inside the warp overlay */
+.theme-starship .star-map > .warp-overlay .warp-tunnel,
+.theme-starship .star-map > .warp-overlay .warp-glow,
+.theme-starship .star-map > .warp-overlay .arrival-flash,
+.app-layout .star-map > .warp-overlay .warp-tunnel,
+.app-layout .star-map > .warp-overlay .warp-glow,
+.app-layout .star-map > .warp-overlay .arrival-flash {
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+}
+
+/* FINAL: anchor warp-overlay to star-map and ensure full coverage */
+.app-layout .star-map {
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 18px !important;
+  z-index: 1 !important;
+}
+
+.app-layout .star-map > .warp-overlay {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: opacity 0.6s ease-in-out !important;
+  z-index: 3 !important; /* above planet, below header */
+}
+
+/* visible states */
+.app-layout .star-map > .warp-overlay.warp-starting,
+.app-layout .star-map > .warp-overlay.warp-active {
+  opacity: 1 !important;
+}
+
+.app-layout .star-map > .warp-overlay.warp-ending {
+  opacity: 0 !important;
+}
+
+/* internal layers must also fill */
+.app-layout .star-map > .warp-overlay .warp-streak-field,
+.app-layout .star-map > .warp-overlay .warp-tunnel,
+.app-layout .star-map > .warp-overlay .warp-glow,
+.app-layout .star-map > .warp-overlay .arrival-flash {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ensure warp canvas scales to overlay */
+.app-layout .star-map > .warp-overlay .warp-streak-field canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: cover !important;
+}
+
+/* DETAIL PANEL: padding, responsive width, and smooth resize */
+.detail-panel {
+  box-sizing: border-box;
+  padding: 1rem;                 /* inner breathing room */
+  min-width: 260px;              /* never collapse too small */
+  max-width: 380px;              /* reasonable maximum on large screens */
+  width: 100%;
+  transition: max-width 260ms ease, padding 260ms ease;
+}
+
+/* Slightly larger on starship theme for visual weight */
+.theme-starship .detail-panel {
+  max-width: 360px;
+  padding: 1rem;
+}
+
+/* Optional expanded state when an object is selected */
+.detail-panel.expanded {
+  max-width: 420px;              /* expands a bit when content needs it */
+  padding: 1.125rem;
+}
+
+/* Ensure the grid gap and body padding are applied (keeps panels off the viewport edge) */
+.app-body {
+  gap: 14px;                     /* space between left/center/right columns */
+  padding: 14px 18px 20px;       /* outer padding so panels don't hug the viewport */
+  box-sizing: border-box;
+}
+
+/* Detail panel: reserve gutter, clip scrollbar, and style it */
+.detail-panel {
+  position: relative;
+  box-sizing: border-box;
+  overflow-y: auto;                       /* enable scrolling inside panel */
+  scrollbar-gutter: stable both-edges;    /* reserve space for scrollbar (modern browsers) */
+  padding-right: 1rem;                    /* extra inner space so content doesn't sit under scrollbar */
+  border-radius: 18px;                    /* match LCARS rounding */
+  background-clip: padding-box;           /* ensure background and border respect rounding */
+}
+
+/* WebKit-based browsers (Chrome, Edge, Safari) */
+.detail-panel::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+.detail-panel::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.12);
+  border-radius: 12px;
+  margin: 8px 0;                          /* keep track inset from top/bottom */
+}
+.detail-panel::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(0,170,255,0.18), rgba(0,170,255,0.28));
+  border-radius: 12px;
+  border: 2px solid rgba(0,0,0,0.12);     /* gives a subtle inset look */
+}
+
+/* Firefox */
+.detail-panel {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,170,255,0.28) rgba(0,0,0,0.12);
+}
+
+/* Ensure panel clips scrollbars and reserves gutter space */
+.detail-panel {
+  position: relative;
+  box-sizing: border-box;
+  overflow: auto;                       /* scrolling inside panel */
+  scrollbar-gutter: stable both-edges;  /* reserve space for scrollbar */
+  padding-right: 1rem;                  /* keep content away from thumb */
+  border-radius: 18px;
+  background-clip: padding-box;         /* keep background inside rounding */
+}
+
+/* WebKit browsers: hide native arrow buttons and style track/thumb */
+.detail-panel::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+.detail-panel::-webkit-scrollbar-button {
+  display: none;                        /* remove top/bottom arrow buttons */
+}
+.detail-panel::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.08);
+  border-radius: 12px;
+  margin: 8px 0;                        /* inset track from top/bottom */
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+.detail-panel::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(0,170,255,0.18), rgba(0,170,255,0.28));
+  border-radius: 12px;
+  border: 2px solid rgba(0,0,0,0.12);
+}
+
+/* Firefox */
+.detail-panel {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,170,255,0.28) rgba(0,0,0,0.08);
+}
+
+/* Fallback: add inner padding wrapper so content never sits under overlay scrollbars */
+.detail-panel > .panel-inner,
+.detail-panel > *:first-child {
+  padding-right: 0.75rem;
+  box-sizing: border-box;
+}
+
+/* Force square thumbnails and consistent cropping across themes */
+.image-gallery .image-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 8px !important;
+}
+
+.image-gallery .image-item,
+.image-gallery img {
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  height: auto !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 6px !important;
+}
+
+/* Defensive theme overrides */
+.theme-nasa .image-gallery img,
+.theme-hologram .image-gallery img,
+.theme-starship-science .image-gallery img,
+.theme-starship .image-gallery img {
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+}
+
+/* ====== Force square thumbnails and remove fixed height ====== */
+.image-gallery img,
+.image-gallery .image-item img {
+  width: 100% !important;
+  height: auto !important;               /* remove fixed 140px */
+  aspect-ratio: 1 / 1 !important;        /* force square */
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 6px !important;
+  margin-top: 4px !important;
+}
+
+/* Defensive high-specificity override for any theme rules */
+.app-layout .image-gallery img,
+.app-layout .image-gallery .image-item img {
+  height: auto !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+}
+
+/* ====== Scrollbar arrows and clipping fix for detail panel ====== */
+.detail-panel {
+  position: relative;
+  box-sizing: border-box;
+  overflow: auto;                         /* scrolling inside panel */
+  scrollbar-gutter: stable both-edges;    /* reserve space where supported */
+  padding-right: 1rem;                    /* keep content away from thumb */
+  border-radius: 18px;
+  background-clip: padding-box;           /* keep background inside rounding */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hide native arrow buttons and style track/thumb for WebKit */
+.detail-panel::-webkit-scrollbar { width: 12px; height: 12px; }
+.detail-panel::-webkit-scrollbar-button { display: none; } /* remove arrows */
+.detail-panel::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.08);
+  border-radius: 12px;
+  margin: 8px 0;                           /* inset track from top/bottom */
+}
+.detail-panel::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(0,170,255,0.18), rgba(0,170,255,0.28));
+  border-radius: 12px;
+  border: 2px solid rgba(0,0,0,0.12);
+}
+
+/* Firefox fallback */
+.detail-panel { scrollbar-width: thin; scrollbar-color: rgba(0,170,255,0.28) rgba(0,0,0,0.08); }
+
+/* Extra inner padding fallback for overlay scrollbars */
+.detail-panel > .panel-inner,
+.detail-panel > *:first-child {
+  padding-right: 0.75rem;
+  box-sizing: border-box;
+}
+ /* CENTER STAR MAP CONTENT: ensure the planet image/canvas is centered and contained */
+.star-map,
+.star-map .star-map-inner,
+.star-map .planet-3d {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+  padding: 0.5rem !important; /* small breathing room */
+}
+
+/* Make the planet container keep a consistent aspect and not stretch vertically */
+.star-map .planet-3d {
+  max-width: 100%;            /* sensible max for large screens */
+  width: flex !important;
+  max-height: calc(100vh - 220px); /* keep it inside viewport minus UI chrome */
+  aspect-ratio: 4 / 3;         /* keep it square; change to 4/3 if you prefer */
+  overflow: hidden;
+}
+
+/* ===== GLOBAL: force rounded panels and clipped children across all themes ===== */
+.app-layout .sidebar,
+.app-layout .center-panel,
+.app-layout .detail-panel,
+.app-layout .star-map,
+.app-layout .image-gallery,
+.app-layout .panel,
+.app-layout .panel-inner,
+.app-layout .theme-panel {
+  border-radius: 18px !important;
+  /* outer wrapper clips children */
+  background-clip: padding-box !important;
+  box-sizing: border-box !important;
+}
+
+/* STAR-MAP INNER ROUNDED FIX — place at end of stylesheet */
+.app-layout.theme-starship .star-map-inner {
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* planet container must inherit rounding and clip children */
+.app-layout.theme-starship .planet-3d {
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* force canvas/img to obey rounding and be clipped */
+.app-layout.theme-starship .planet-3d canvas,
+.app-layout.theme-starship .planet-3d img {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: contain !important;
+  border-radius: inherit !important;
+  overflow: hidden !important;
+  background-clip: padding-box !important;
+}
+
+/* defensive high-specificity for inline-style overrides */
+body .app-layout.theme-starship .planet-3d canvas,
+body .app-layout.theme-starship .planet-3d img {
+  border-radius: inherit !important;
+}
+
+/* STARMAP INNER ROUNDED FIX — place at end of stylesheet */
+.app-layout.theme-starship .star-map-inner,
+.app-layout.theme-starship .planet-3d,
+.app-layout.theme-starship .planet-canvas-wrapper {
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Ensure the Canvas element inherits the rounding and fills the wrapper */
+.app-layout.theme-starship .planet-canvas,
+.app-layout.theme-starship .planet-3d canvas,
+.app-layout.theme-starship .planet-3d img {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: contain !important;
+  border-radius: inherit !important;
+  overflow: hidden !important;
+  background-clip: padding-box !important;
+}
+
+/* Defensive specificity for inline style overrides */
+body .app-layout.theme-starship .planet-3d canvas {
+  border-radius: inherit !important;
+}
+
+/* FORCE inner star-map canvas to be rounded and clipped (place at end of layout.css) */
+.app-layout .star-map,
+.app-layout .star-map-inner,
+.app-layout .planet-3d,
+.app-layout .planet-canvas-wrapper {
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* Target any canvas that ends up inside the star-map and force it to inherit rounding */
+.app-layout .star-map canvas,
+.app-layout .star-map-inner canvas,
+.app-layout .planet-3d canvas,
+.app-layout .planet-canvas-wrapper canvas,
+.app-layout canvas[data-r3f] { /* react-three-fiber often marks canvas with data-r3f */
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: contain !important;
+  border-radius: inherit !important;
+  overflow: hidden !important;
+  background-clip: padding-box !important;
+}
+
+/* Defensive: if the canvas is appended elsewhere, match any canvas whose nearest .star-map ancestor exists */
+/*canvas {
+  /* do not apply globally; only when inside a star-map ancestor */
+
+/* RED ALERT THEME VISUALS */
+.app-layout.theme-starship-redalert .detail-panel,
+.app-layout.theme-starship-redalert .sidebar,
+.app-layout.theme-starship-redalert .center-panel {
+  box-shadow: 0 0 40px rgba(255, 40, 40, 0.35), inset 0 0 30px rgba(255, 20, 20, 0.12);
+  transition: box-shadow 300ms ease, background-color 300ms ease;
+}
+
+.app-layout.theme-starship-redalert .star-map {
+  outline: 3px solid rgba(255, 40, 40, 0.18);
+  box-shadow: 0 0 60px rgba(255, 40, 40, 0.18);
+}
+
+/* RED ALERT OVERLAY LAYER */
+.red-alert-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: linear-gradient(180deg, rgba(255, 0, 0, 0.06), rgba(255, 0, 0, 0.02));
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.app-layout.theme-starship-redalert .red-alert-overlay {
+  opacity: 1;
+  animation: redPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes redPulse {
+  0% { transform: scale(1); opacity: 0.18; }
+  50% { transform: scale(1.02); opacity: 0.36; }
+  100% { transform: scale(1); opacity: 0.18; }
+}
+
+/* RED ALERT HUD FLASH */
+.red-alert-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.9), rgba(255,0,0,0.12) 20%, transparent 40%);
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+.red-alert-flash.active { opacity: 1; animation: flashFade 220ms ease-out; }
+@keyframes flashFade { from { opacity: 1 } to { opacity: 0 } }
+
+/* ============================
+   LCARS HUD — STARSHIP ONLY
+============================ */
+.app-layout.theme-starship .lcars-hud-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9001;
+}
+
+/* ===== Targeting Brackets ===== */
+.app-layout.theme-starship .hud-bracket {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(0, 170, 255, 0.55);
+  border-radius: 8px;
+  opacity: 0.75;
+}
+
+.app-layout.theme-starship .hud-bracket.top-left { top: 12%; left: 12%; border-right: none; border-bottom: none; }
+.app-layout.theme-starship .hud-bracket.top-right { top: 12%; right: 12%; border-left: none; border-bottom: none; }
+.app-layout.theme-starship .hud-bracket.bottom-left { bottom: 12%; left: 12%; border-right: none; border-top: none; }
+.app-layout.theme-starship .hud-bracket.bottom-right { bottom: 12%; right: 12%; border-left: none; border-top: none; }
+
+/* ===== Crosshair ===== */
+.app-layout.theme-starship .hud-crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%);
+  opacity: 0.65;
+}
+
+.app-layout.theme-starship .crosshair-line {
+  position: absolute;
+  background: rgba(0, 170, 255, 0.45);
+}
+
+.app-layout.theme-starship .crosshair-line.vertical {
+  width: 3px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.app-layout.theme-starship .crosshair-line.horizontal {
+  height: 3px;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ===== Scan Ring ===== */
+.app-layout.theme-starship .hud-scan-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 260px;
+  height: 260px;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(0, 170, 255, 0.25);
+  border-radius: 50%;
+  animation: scanPulse 3.6s ease-in-out infinite;
+  opacity: 0.45;
+}
+
+/* ===== Tactical Grid ===== */
+.app-layout.theme-starship .hud-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 170, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 170, 255, 0.08) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.15;
+}
+
+/* STARSHIP — HUD must align to the planet container */
+.app-layout.theme-starship .star-map-inner {
+  position: relative !important;
+}
+
+/* HUD frame sits exactly over the planet viewer */
+.app-layout.theme-starship .lcars-hud-frame {
+  position: absolute !important;
+  inset: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  pointer-events: none !important;
+  z-index: 9001 !important;
+}
+
+/* Remove HUD alignment from .star-map (wrong container) */
+.app-layout.theme-starship .cockpit-hud {
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Round the Solar / Exoplanet toggle buttons globally */
+.toggle-row button {
+  border-radius: 10px !important;
+  padding: 6px 14px;
+}
+
+/* STARSHIP — Separate cockpit buttons */
+.app-layout.theme-starship .cockpit-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.app-layout.theme-starship .cockpit-btn {
+  border-radius: 8px !important;
+  background: rgba(0, 170, 255, 0.25);
+  border: 1px solid rgba(0, 170, 255, 0.4);
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.app-layout.theme-starship .cockpit-btn:hover {
+  background: rgba(0, 170, 255, 0.35);
+  box-shadow: 0 0 10px rgba(0, 170, 255, 0.4);
+}
+
+/* ============================
+   LCARS HUD — STARSHIP ONLY
+============================ */
+.app-layout.theme-starship .lcars-hud-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9001;
+}
+
+/* ===== Targeting Brackets ===== */
+.app-layout.theme-starship .hud-bracket {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(0, 170, 255, 0.55);
+  border-radius: 8px;
+  opacity: 0.75;
+}
+
+.app-layout.theme-starship .hud-bracket.top-left { top: 12%; left: 12%; border-right: none; border-bottom: none; }
+.app-layout.theme-starship .hud-bracket.top-right { top: 12%; right: 12%; border-left: none; border-bottom: none; }
+.app-layout.theme-starship .hud-bracket.bottom-left { bottom: 12%; left: 12%; border-right: none; border-top: none; }
+.app-layout.theme-starship .hud-bracket.bottom-right { bottom: 12%; right: 12%; border-left: none; border-top: none; }
+
+/* ===== Crosshair ===== */
+.app-layout.theme-starship .hud-crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%);
+  opacity: 0.65;
+}
+
+.app-layout.theme-starship .crosshair-line {
+  position: absolute;
+  background: rgba(0, 170, 255, 0.45);
+}
+
+.app-layout.theme-starship .crosshair-line.vertical {
+  width: 3px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.app-layout.theme-starship .crosshair-line.horizontal {
+  height: 3px;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ===== Scan Ring ===== */
+.app-layout.theme-starship .hud-scan-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 260px;
+  height: 260px;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(0, 170, 255, 0.25);
+  border-radius: 50%;
+  animation: scanPulse 3.6s ease-in-out infinite;
+  opacity: 0.45;
+}
+
+/* ===== Tactical Grid ===== */
+.app-layout.theme-starship .hud-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 170, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 170, 255, 0.08) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.15;
+}
+
+/* STARSHIP — HUD must align to the planet container */
+.app-layout.theme-starship .star-map-inner {
+  position: relative !important;
+}
+
+/* HUD frame sits exactly over the planet viewer */
+.app-layout.theme-starship .lcars-hud-frame {
+  position: absolute !important;
+  inset: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  pointer-events: none !important;
+  z-index: 9001 !important;
+}
+
+/* Remove HUD alignment from .star-map (wrong container) */
+.cockpit-hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999; /* ABOVE StarMap canvas */
+}
+
+/* Round the Solar / Exoplanet toggle buttons globally */
+.toggle-row button {
+  border-radius: 10px !important;
+  padding: 6px 14px;
+}
+
+/* STARSHIP — Separate cockpit buttons */
+.app-layout.theme-starship .cockpit-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.app-layout.theme-starship .cockpit-btn {
+  border-radius: 8px !important;
+  background: rgba(0, 170, 255, 0.25);
+  border: 1px solid rgba(0, 170, 255, 0.4);
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.app-layout.theme-starship .cockpit-btn:hover {
+  background: rgba(0, 170, 255, 0.35);
+  box-shadow: 0 0 10px rgba(0, 170, 255, 0.4);
+}
+
+/* ===== FORCE cockpit overlay to anchor to .star-map ===== */
+.app-layout.theme-starship .star-map {
+  position: relative !important;
+  -webkit-transform: none !important;
+  transform: none !important;
+}
+
+/* Prefer direct child selector to avoid other containers stealing layout */
+.app-layout.theme-starship .star-map > .cockpit-container {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 9000 !important;
+  pointer-events: none !important;
+}
+
+/* Controls pinned to bottom center of the star-map */
+.app-layout.theme-starship .star-map > .cockpit-container .cockpit-controls {
+  position: absolute !important;
+  bottom: 16px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  gap: 12px !important;
+  pointer-events: auto !important;
+  z-index: 9002 !important;
+}
+
+/* Defensive: ensure no ancestor transform creates a new stacking/positioning context */
+.app-layout.theme-starship .center-panel,
+.app-layout.theme-starship .center-panel * {
+  -webkit-transform: none !important;
+  transform: none !important;
+}
+
+/* ===== FINAL: ensure star-map is the positioning anchor ===== */
+.app-layout.theme-starship .center-panel > .star-map,
+.app-layout.theme-starship .star-map {
+  position: relative !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* cockpit container must be a direct child of .star-map */
+.app-layout.theme-starship .star-map > .cockpit-container {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 9000 !important;
+  pointer-events: none !important;
+}
+
+/* pin controls to bottom center of the star-map */
+.app-layout.theme-starship .star-map > .cockpit-container .cockpit-controls {
+  position: absolute !important;
+  bottom: 16px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  gap: 12px !important;
+  pointer-events: auto !important;
+  z-index: 9002 !important;
+}
+
+/* ensure HUD sits above planet but below red alert */
+.app-layout.theme-starship .star-map > .star-map-inner > .lcars-hud-frame,
+.app-layout.theme-starship .star-map > .star-map-inner .lcars-hud-frame {
+  position: absolute !important;
+  inset: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  pointer-events: none !important;
+  z-index: 9001 !important;
+}
+
+/* defensive: neutralize transforms on immediate ancestors */
+.app-layout.theme-starship .center-panel,
+.app-layout.theme-starship .center-panel > * {
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* ===== cockpit controls: fixed buttons + visible icon toggle ===== */
+.app-layout.theme-starship .cockpit-controls {
+  position: absolute !important;
+  bottom: 16px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  gap: 12px !important;
+  align-items: center !important;
+  pointer-events: auto !important;
+  z-index: 9002 !important;
+}
+
+/* fixed width so toggle doesn't shift layout */
+.app-layout.theme-starship .cockpit-btn--fixed {
+  min-width: 72px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(0,170,255,0.22);
+  border: 1px solid rgba(0,170,255,0.36);
+  color: #e6f1ff;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* visible icon toggle — small, fixed footprint */
+.app-layout.theme-starship .hud-icon-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: rgba(230,241,255,0.95);
+  cursor: pointer;
+  padding: 4px;
+}
+.app-layout.theme-starship .hud-icon-toggle.on {
+  background: linear-gradient(90deg, rgba(0,170,255,0.18), rgba(0,170,255,0.12));
+  box-shadow: 0 4px 14px rgba(0,170,255,0.08);
+}
+
+/* ensure star-map is anchor and HUD centers exactly */
+.app-layout.theme-starship .star-map { position: relative !important; transform: none !important; }
+.app-layout.theme-starship .star-map > .cockpit-container { position: absolute !important; inset: 0 !important; pointer-events: none !important; z-index: 9000 !important; }
+.app-layout.theme-starship .star-map .star-map-inner { position: relative !important; }
+.app-layout.theme-starship .star-map .star-map-inner > .lcars-hud-frame {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  pointer-events: none !important;
+  z-index: 9001 !important;
+}
+
+/* Scope HUD and cockpit controls to Starship Command only */
+.app-layout.theme-starship .lcars-hud-frame,
+.app-layout.theme-starship .cockpit-container,
+.app-layout.theme-starship .cockpit-controls {
+  display: block;
+}
+
+/* Hide in other themes */
+.app-layout:not(.theme-starship) .lcars-hud-frame,
+.app-layout:not(.theme-starship) .cockpit-container,
+.app-layout:not(.theme-starship) .cockpit-controls {
+  display: none !important;
+}
+
+/* Cockpit toolbar layout and spacing */
+.app-layout .cockpit-controls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  justify-content: center !important;
+  pointer-events: auto !important;
+}
+
+/* Prevent label changes from shifting layout */
+.app-layout .cockpit-btn {
+  min-width: 72px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+/* Icon toggle fixed footprint */
+.app-layout .hud-icon-toggle {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+/* ===== FORCE: star-map anchor, pixel-perfect HUD center, stable cockpit controls ===== */
+
+/* Make star-map the containing block */
+.app-layout.theme-starship .center-panel > .star-map,
+.app-layout.theme-starship .star-map {
+  position: relative !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* cockpit container must be direct child of star-map and overlay it */
+.app-layout.theme-starship .star-map > .cockpit-container {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 9000 !important;
+  pointer-events: none !important;
+}
+
+/* pin controls to bottom center of star-map and keep them stable */
+.app-layout.theme-starship .star-map > .cockpit-container .cockpit-controls {
+  position: absolute !important;
+  bottom: 16px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  gap: 12px !important;
+  align-items: center !important;
+  pointer-events: auto !important;
+  z-index: 9002 !important;
+}
+
+/* fixed footprint for buttons and toggle so nothing shifts */
+.app-layout.theme-starship .cockpit-btn,
+.app-layout.theme-starship .hud-icon-toggle {
+  min-width: 64px !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+}
+
+/* HUD must be inside star-map-inner and be centered relative to it */
+.app-layout.theme-starship .star-map .star-map-inner {
+  position: relative !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* Pixel-perfect center for LCARS HUD */
+.app-layout.theme-starship .star-map .star-map-inner > .lcars-hud-frame,
+.app-layout.theme-starship .star-map .star-map-inner .lcars-hud-frame {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  pointer-events: none !important;
+  z-index: 9001 !important;
+}
+
+/* Defensive: neutralize transforms on immediate ancestors that create containing blocks */
+.app-layout.theme-starship .center-panel,
+.app-layout.theme-starship .center-panel > *,
+.app-layout.theme-starship .app-layout,
+.app-layout.theme-starship .app-layout > * {
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* ===== FINAL PATCH: neutralize stray transforms, center controls, pixel-center HUD ===== */
+
+/* 1) Ensure star-map is the containing block */
+.app-layout.theme-starship .star-map {
+  position: relative !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* 2) Force cockpit container to overlay star-map */
+.app-layout.theme-starship .star-map > .cockpit-container,
+.app-layout.theme-starship .star-map .cockpit-container {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 9000 !important;
+  pointer-events: none !important;
+}
+
+/* 3) Pin controls to bottom center and remove any stray transform on them */
+.app-layout.theme-starship .star-map > .cockpit-container .cockpit-controls,
+.app-layout.theme-starship .star-map .cockpit-container .cockpit-controls {
+  position: absolute !important;
+  bottom: 16px !important;
+  left: 50% !important;
+  /* override any previous matrix/translate values */
+  transform: translateX(-50%) !important;
+  -webkit-transform: translateX(-50%) !important;
+  display: flex !important;
+  gap: 12px !important;
+  align-items: center !important;
+  pointer-events: auto !important;
+  z-index: 9002 !important;
+}
+
+/* Defensive: remove transform on the controls themselves and their immediate ancestors */
+.app-layout.theme-starship .cockpit-controls,
+.app-layout.theme-starship .cockpit-controls * {
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* 4) Fixed footprint for buttons and toggle so nothing shifts layout */
+.app-layout.theme-starship .cockpit-btn,
+.app-layout.theme-starship .hud-icon-toggle,
+.app-layout.theme-starship .cockpit-btn--fixed {
+  min-width: 64px !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+}
+
+/* 5) Center the LCARS HUD relative to star-map-inner (catch any placement) */
+.app-layout.theme-starship .star-map .star-map-inner,
+.app-layout.theme-starship .star-map > .star-map-inner {
+  position: relative !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* Target any lcars-hud-frame descendant and center it pixel-perfectly */
+.app-layout.theme-starship .star-map .star-map-inner .lcars-hud-frame,
+.app-layout.theme-starship .star-map .star-map-inner > .lcars-hud-frame,
+.app-layout.theme-starship .lcars-hud-frame {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  -webkit-transform: translate(-50%, -50%) !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  pointer-events: none !important;
+  z-index: 9001 !important;
+}
+
+/* 6) Defensive: neutralize transforms on immediate ancestors that create new containing blocks */
+.app-layout.theme-starship .center-panel,
+.app-layout.theme-starship .center-panel > *,
+.app-layout.theme-starship .app-layout,
+.app-layout.theme-starship .app-layout > * {
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* ===== SURGICAL FIX: neutralize stray transforms and pixel-center HUD ===== */
+
+/* Defensive HUD frame reset and full-size overlay */
+.app-layout .center-panel .star-map {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: visible !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* star-map-inner fills the star-map area and is the stacking context for overlays */
+.app-layout .center-panel .star-map .star-map-inner {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: visible !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* Warp overlay full coverage */
+.app-layout .center-panel .star-map .warp-overlay {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  pointer-events: none;
+  z-index: 5000;
+}
+
+/* Cockpit stack overlays the planet/canvas */
+.app-layout .center-panel .star-map .cockpit-stack {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9005;
+}
+
+/* Each cockpit layer fills and centers */
+.app-layout .center-panel .star-map .cockpit-layer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+.app-layout .center-panel .star-map .cockpit-layer.frame { z-index: 9010; }
+.app-layout .center-panel .star-map .cockpit-layer.ribs  { z-index: 9020; }
+.app-layout .center-panel .star-map .cockpit-layer.chair { z-index: 9030; }
+
+/* LCARS HUD frame: neutralize transforms and center inner visuals */
+.app-layout.theme-starship .center-panel .star-map .lcars-hud-frame {
+  transform: none !important;
+  -webkit-transform: none !important;
+  position: absolute !important;
+  inset: 0 !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  pointer-events: none !important;
+  z-index: 9040 !important;
+}
+
+/* Center inner HUD visuals (crosshair, scan ring, grid) */
+.app-layout.theme-starship .center-panel .star-map .lcars-hud-frame .hud-crosshair,
+.app-layout.theme-starship .center-panel .star-map .lcars-hud-frame .hud-scan-ring,
+.app-layout.theme-starship .center-panel .star-map .lcars-hud-frame .hud-grid {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  -webkit-transform: translate(-50%, -50%) !important;
+  pointer-events: none !important;
+}
+
+/* Brackets: keep original placement but remove stray transforms */
+.app-layout.theme-starship .center-panel .star-map .lcars-hud-frame .hud-bracket {
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* Cockpit controls wrapper: span full width and center children */
+.app-layout .center-panel .star-map .cockpit-controls-inner {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 20px !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* Keep the controls in normal flow so wrapper doesn't collapse */
+.app-layout .center-panel .star-map .cockpit-controls {
+  position: static !important;
+  pointer-events: auto !important;
+  display: inline-flex !important;
+  gap: 12px !important;
+  align-items: center !important;
+  margin: 0 auto !important;
+}
+
+/* HUD icon sizing and appearance */
+.app-layout .center-panel .star-map .hud-icon-toggle {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 6px !important;
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  cursor: pointer !important;
+}
+
+/* Star-map headings: top center, above the map and controls */
+.app-layout .center-panel .star-map .starmap-title,
+.app-layout .center-panel .star-map .starmap-subtitle {
+  position: absolute !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 9100 !important;
+  text-align: center !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+  white-space: nowrap;
+}
+.app-layout .center-panel .star-map .starmap-title {
+  top: 12px !important;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.app-layout .center-panel .star-map .starmap-subtitle {
+  top: 36px !important;
+  font-size: 0.9rem;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+/* DestinationPanel layout (kept and scoped) */
+.app-layout .destination-panel {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  max-height: calc(100vh - 160px);
+  overflow: hidden;
+}
+.app-layout .destination-panel .destination-left {
+  flex: 0 0 320px;
+  min-width: 260px;
+  max-width: 360px;
+  box-sizing: border-box;
+}
+.app-layout .destination-panel .destination-left.hidden {
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  visibility: hidden !important;
+}
+.app-layout .destination-panel .destination-right {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+.app-layout .destination-panel .destination-right > .detail-panel,
+.app-layout .destination-panel .destination-right > .planet-list {
+  overflow: auto;
+}
+.app-layout .destination-panel .destination-right .detail-panel {
+  max-height: calc(100vh - 220px);
+  padding-right: 8px;
+  box-sizing: border-box;
+}
+
+/* Console controls in left column remain clickable */
+.app-layout .destination-panel .console-controls {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: auto;
+  z-index: 50;
+  position: relative;
+}
+
+/* Responsive tweaks */
+@media (max-width: 980px) {
+  .app-layout .destination-panel { flex-direction: column; max-height: none; }
+  .app-layout .destination-panel .destination-left { width: 100%; min-width: auto; max-width: none; order: 2; }
+  .app-layout .destination-panel .destination-right { order: 1; }
+  .app-layout .destination-panel .destination-right .detail-panel { max-height: none; }
+  .app-layout .center-panel .star-map .cockpit-layer { object-fit: contain; }
+}
+
+/* === GLOBAL COCKPIT HUD OVERLAY (BOTTOM ANCHORED) === */
+.cockpit {
+  position: fixed !important;
+  left: 50% !important;
+  bottom: 120px !important;   /* ⭐ sits above Scan/Target/Warp buttons */
+  transform: translateX(-50%) !important;
+
+  width: 100vw !important;
+  max-width: 1600px !important;
+
+  height: auto !important;
+  max-height: 100vh !important;
+
+  pointer-events: none !important;
+  z-index: 999999 !important;
+  overflow: visible !important;
+}
+
+/* ⭐ Medium screens: move cockpit slightly higher */
+@media (max-height: 900px) {
+  .cockpit {
+    bottom: 160px !important;
+  }
+}
+
+/* ⭐ Small screens: move cockpit even higher */
+@media (max-height: 700px) {
+  .cockpit {
+    bottom: 200px !important;
+  }
+}
+
+/* ⭐ Very small screens: keep cockpit visible */
+@media (max-height: 550px) {
+  .cockpit {
+    bottom: 240px !important;
+  }
+}
+
+/* ============================================================
+   COCKPIT LAYERS
+   ============================================================ */
+
+.cockpit-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: auto;
+
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ============================================================
+   HUD VISIBILITY
+   ============================================================ */
+
+.cockpit-hud {
+  position: relative;   /* ⭐ allow natural height */
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  z-index: 1000000 !important;
+  opacity: 1;
+  transition: opacity 0.6s ease-out;
+}
+
+.cockpit-hud.hidden {
+  opacity: 0;
+}
+
+/* ============================================================
+   STAR MAP CANVAS BELOW COCKPIT
+   ============================================================ */
+
+.star-map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.star-map-wrapper canvas {
+  position: relative;
+  z-index: 1 !important;
+}
+
+/* ============================================================
+   COCKPIT BUTTONS + ICONS
+   ============================================================ */
+
+.cockpit-btn--icon {
+  height: 36px !important;
+  width: 80px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  line-height: 1 !important;
+}
+
+.cockpit-btn--icon .cockpit-icon {
+  width: 16px !important;
+  height: 16px !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  stroke-width: 1.6 !important;
+  vector-effect: non-scaling-stroke;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.cockpit-btn.active {
+  background: rgba(60, 140, 255, 0.3);
+  border-color: rgba(120, 180, 255, 0.9);
+  color: #9cf;
+}
+
+/* ============================================================
+   HUD ANIMATIONS
+   ============================================================ */
+
+.hud-crosshair.targeted {
+  animation: targetFlash 0.4s ease-out;
+}
+
+@keyframes targetFlash {
+  0% { opacity: 1; }
+  50% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+
+@keyframes scanPulse {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+.hud-scan-bar {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 200, 255, 0.18),
+    rgba(0, 200, 255, 0.0)
+  );
+  pointer-events: none;
+  opacity: 0;
+}
+
+.hud-scan-bar.scanning {
+  animation: scanSweep 1.2s linear;
+  opacity: 1;
+}
+
+@keyframes scanSweep {
+  0% { top: -100%; }
+  100% { top: 100%; }
+}
+
+.hud-crosshair.targeted {
+  animation: targetLock 0.6s ease-out;
+}
+
+@keyframes targetLock {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.hud-scan-ring {
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 200, 255, 0.25);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+.red-alert-flash {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 0, 0, 0.15);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 900000;
+  animation: redAlertPulse 1.2s infinite ease-in-out;
+}
+
+@keyframes redAlertPulse {
+  0% { opacity: 0.1; }
+  50% { opacity: 0.35; }
+  100% { opacity: 0.1; }
+}
+
+.red-alert-text {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 48px;
+  font-weight: 900;
+  color: #ff4444;
+  text-shadow: 0 0 20px rgba(255,0,0,0.8);
+  animation: redAlertTextFlash 0.8s infinite alternate;
+  z-index: 900001;
+  pointer-events: none;
+}
+
+@keyframes redAlertTextFlash {
+  0% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+
+.enemy-target-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 220px;
+  height: 220px;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(255, 0, 0, 0.8);
+  box-shadow: 0 0 20px rgba(255,0,0,0.6);
+  animation: targetBoxPulse 1.5s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 900002;
+}
+
+@keyframes targetBoxPulse {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.1); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.red-alert-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 0, 0, 0.18),
+    rgba(255, 0, 0, 0.05) 60%,
+    rgba(255, 0, 0, 0.0) 100%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 900000;
+  opacity: 0;
+  animation: redAlertPulse 1.4s infinite ease-in-out;
+  transition: opacity 0.6s ease-in-out;
+}
+
+@keyframes redAlertPulse {
+  0% { opacity: 0.15; }
+  50% { opacity: 0.45; }
+  100% { opacity: 0.15; }
+}
+
+.theme-starship-redalert .red-alert-flash {
+  opacity: 1;
+}
+
+.theme-starship .red-alert-flash,
+.theme-nasa .red-alert-flash,
+.theme-hologram .red-alert-flash {
+  opacity: 0;
+}
+
+/* ============================================================
+   WEAPONS: PHASERS + TORPEDOES
+   ============================================================ */
+
+/* Phaser beam: instant line from bottom to target */
+.phaser-beam {
+  position: fixed;
+  bottom: 120px;
+  left: 50%;
+  width: 3px;
+  height: 52vh;
+  transform: translateX(-50%);
+  background: linear-gradient(to top, rgba(56,189,248,0), #38bdf8, #e0f2fe);
+  box-shadow: 0 0 18px rgba(56,189,248,0.9);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 900300;
+  animation: phaserFire 0.18s ease-out;
+}
+
+/* Torpedo projectile */
+.torpedo {
+  position: fixed;
+  bottom: 130px;
+  left: 50%;
+  width: 10px;
+  height: 26px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle at center, #f97316 0%, #b91c1c 60%, transparent 100%);
+  border-radius: 999px;
+  box-shadow: 0 0 16px rgba(248,113,113,0.9);
+  pointer-events: none;
+  z-index: 900310;
+  animation: torpedoFlight 0.7s linear forwards;
+}
+
+/* Torpedo trail */
+.torpedo-trail {
+  position: fixed;
+  bottom: 130px;
+  left: 50%;
+  width: 2px;
+  height: 80px;
+  transform: translateX(-50%);
+  background: linear-gradient(to top, rgba(248,250,252,0.0), rgba(248,250,252,0.7));
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 900309;
+  animation: torpedoTrailFade 0.7s linear forwards;
+}
+
+/* Explosion at target */
+.explosion {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #fde68a 0%, #f97316 40%, rgba(0,0,0,0) 70%);
+  box-shadow: 0 0 40px rgba(248,250,252,0.9);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 900320;
+  animation: explosionBurst 0.5s ease-out forwards;
+}
+
+/* ============================================================
+   BUTTONS / ICONS (COCKPIT CONTROLS)
+   ============================================================ */
+
+.cockpit-btn--icon {
+  height: 36px !important;
+  width: 80px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  line-height: 1 !important;
+}
+
+.cockpit-btn--icon .cockpit-icon {
+  width: 16px !important;
+  height: 16px !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  stroke-width: 1.6 !important;
+  vector-effect: non-scaling-stroke;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.cockpit-btn.active {
+  background: rgba(60, 140, 255, 0.3);
+  border-color: rgba(120, 180, 255, 0.9);
+  color: #9cf;
+}
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+
+@keyframes redAlertPulse {
+  0% { opacity: 0.15; }
+  50% { opacity: 0.45; }
+  100% { opacity: 0.15; }
+}
+
+@keyframes redAlertTextBlink {
+  0% { opacity: 0.25; transform: translateX(-50%) scale(1); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+}
+
+@keyframes redAlertBarPulse {
+  0% { opacity: 0.2; }
+  50% { opacity: 0.5; }
+  100% { opacity: 0.2; }
+}
+
+@keyframes targetBoxPulse {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.1); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes shieldLowPulse {
+  0% { box-shadow: 0 0 8px rgba(248,113,113,0.4); }
+  100% { box-shadow: 0 0 22px rgba(248,113,113,1); }
+}
+
+@keyframes targetLock {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.4; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+@keyframes scanSweep {
+  0% { top: -100%; }
+  100% { top: 100%; }
+}
+
+@keyframes phaserFire {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes torpedoFlight {
+  0% { transform: translate(-50%, 0); opacity: 1; }
+  100% { transform: translate(-50%, -60vh); opacity: 0; }
+}
+
+@keyframes torpedoTrailFade {
+  0% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+
+@keyframes explosionBurst {
+  0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0.1; }
+  60% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
+}
+
+/* ============================================================
+   RED ALERT HUD CORE
+   ============================================================ */
+
+/* Cinematic flash overlay */
+.red-alert-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 0, 0, 0.18),
+    rgba(255, 0, 0, 0.05) 60%,
+    rgba(255, 0, 0, 0.0) 100%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 900000;
+  opacity: 0;
+  animation: redAlertPulse 1.4s infinite ease-in-out;
+  transition: opacity 0.6s ease-in-out;
+}
+
+/* Fade in/out based on theme */
+.theme-starship-redalert .red-alert-flash {
+  opacity: 1;
+}
+
+.theme-starship .red-alert-flash,
+.theme-nasa .red-alert-flash,
+.theme-hologram .red-alert-flash,
+.theme-science .red-alert-flash {
+  opacity: 0;
+}
+
+/* Red Alert text banner */
+.red-alert-text {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: #ff3b3b;
+  text-shadow: 0 0 12px rgba(255,0,0,0.9);
+  animation: redAlertTextBlink 0.7s infinite alternate;
+  z-index: 900001;
+  pointer-events: none;
+}
+
+/* Optional LCARS-style side bars */
+.red-alert-bar {
+  position: fixed;
+  top: 0;
+  width: 14px;
+  height: 100vh;
+  background: rgba(255, 0, 0, 0.35);
+  animation: redAlertBarPulse 1.4s infinite ease-in-out;
+  z-index: 900000;
+  pointer-events: none;
+}
+
+.red-alert-bar.left { left: 0; }
+.red-alert-bar.right { right: 0; }
+
+/* ============================================================
+   ENEMY TARGETING HUD
+   ============================================================ */
+
+/* Central target box */
+.enemy-target-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 220px;
+  height: 220px;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(255, 0, 0, 0.85);
+  box-shadow: 0 0 20px rgba(255,0,0,0.6);
+  animation: targetBoxPulse 1.5s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 900200;
+}
+
+/* Enemy health bar (top center) */
+.enemy-health-bar {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 16px;
+  border-radius: 999px;
+  border: 2px solid rgba(248,113,113,0.9);
+  background: rgba(15,23,42,0.9);
+  overflow: hidden;
+  z-index: 900201;
+}
+
+.enemy-health-fill {
+  height: 100%;
+  background: linear-gradient(to right, #f97373, #ef4444, #b91c1c);
+  transition: width 0.25s ease-out;
+}
+
+/* Enemy name label */
+.enemy-label {
+  position: fixed;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fecaca;
+  text-shadow: 0 0 8px rgba(248,113,113,0.9);
+  z-index: 900201;
+}
+
+/* ============================================================
+   PLAYER SHIELDS + STATUS
+   ============================================================ */
+
+.shield-meter {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 220px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2px solid #0ea5e9;
+  background: rgba(15,23,42,0.9);
+  overflow: hidden;
+  z-index: 900210;
+}
+
+.shield-bar {
+  height: 100%;
+  background: linear-gradient(to right, #22d3ee, #0ea5e9, #0369a1);
+  transition: width 0.25s ease-out;
+}
+
+/* Shield label */
+.shield-label {
+  position: fixed;
+  bottom: 44px;
+  left: 20px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #bae6fd;
+  text-shadow: 0 0 6px rgba(56,189,248,0.8);
+  z-index: 900210;
+}
+
+/* Low shield warning */
+.shield-low {
+  box-shadow: 0 0 18px rgba(248,113,113,0.9);
+  animation: shieldLowPulse 0.7s infinite alternate;
+}
+
+/* ============================================================
+   DAMAGE OVERLAYS + HULL BREACH
+   ============================================================ */
+
+.damage-overlay {
+  position: fixed;
+  inset: 0;
+  object-fit: cover;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 900220;
+}
+
+/* Additional heavy damage overlay */
+.damage-overlay.heavy {
+  opacity: 0.7;
+}
+
+/* Hull breach vignette */
+.hull-breach-overlay {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at center, transparent 0%, transparent 45%, rgba(0,0,0,0.85) 100%);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 900230;
+  transition: opacity 0.4s ease-out;
+}
+
+.hull-breach-overlay.active {
+  opacity: 1;
+}
+
+/* ============================================================
+   SCREEN SHAKE (APPLIED TO CENTER PANEL OR APP LAYOUT)
+   ============================================================ */
+
+@keyframes screenShake {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-8px, 4px); }
+  40% { transform: translate(6px, -6px); }
+  60% { transform: translate(-4px, 3px); }
+  80% { transform: translate(4px, -2px); }
+  100% { transform: translate(0, 0); }
+}
+
+.screen-shake {
+  animation: screenShake 0.4s ease;
+}
+
+/* You can apply .screen-shake to .center-panel or .app-layout from React */
+
+/* ============================================================
+   HUD CROSSHAIR / SCAN (REUSE FROM EARLIER)
+   ============================================================ */
+
+.hud-crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(148,163,184,0.6);
+  pointer-events: none;
+  z-index: 900205;
+}
+
+.hud-crosshair.targeted {
+  animation: targetLock 0.6s ease-out;
+}
+
+.hud-scan-ring {
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 200, 255, 0.25);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+.hud-scan-bar {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 200, 255, 0.18),
+    rgba(0, 200, 255, 0.0)
+  );
+  pointer-events: none;
+  opacity: 0;
+}
+
+.hud-scan-bar.scanning {
+  animation: scanSweep 1.2s linear;
+  opacity: 1;
+}
+
